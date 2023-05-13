@@ -22,4 +22,11 @@ class Banco(metaclass=SingletonMeta):
     else:
       self._contas[numero] = Conta(numero, 0.0);
       return True;
+  
 
+  def saldoConta(self, numero : int) -> float:
+    if(numero in self._contas):
+      conta = self._contas[numero];
+      return conta.saldo;
+    else:
+      raise Exception("Conta não existe!")
