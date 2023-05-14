@@ -1,7 +1,8 @@
 from services.banco import *
 
+import time
 
-if __name__ == '__main__':
+def operacao_banco():
     print("Bem vindo ao app do Banco DIM0517")
     print("Escolha umas das opções abaixo: ")
     print("(1) Cadastrar Conta")
@@ -17,14 +18,22 @@ if __name__ == '__main__':
         case '0':
             exit(0)
         case '1':
-            exit(0)
+            crie_conta()
         case '2':
-            exit(0)            
+            consulta_saldo()         
         case '3':
             credito()
         case '4':
-            exit(0)
+            debito()
         case '5':
             transferir()
         case _:
-            raise Exception("Opção inválida")
+            invalid_input()
+    
+    print("\n"*2)
+
+    time.sleep(2)
+
+if __name__ == '__main__':
+    while(True):
+        operacao_banco()
