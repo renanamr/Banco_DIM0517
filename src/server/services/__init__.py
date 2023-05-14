@@ -1,1 +1,1 @@
-from .banco import Banco;
+from src.server.services.banco import Banco;
