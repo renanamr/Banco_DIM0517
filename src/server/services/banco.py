@@ -31,16 +31,6 @@ class Banco(metaclass=SingletonMeta):
     else:
       raise Exception("Conta não existe!")
     
-  def transferir(self, origem, destino, valor : float) -> float:
-    if(origem in self._contas and destino in self._contas):
-      conta_origem = self._contas[origem]
-      conta_destino =  self._contas[destino]
-      conta_origem -= valor
-      conta_destino += valor
-      return True
-    else:
-      raise Exception("Conta não existe!")
-    
   def credito(self, numero : int, valor : float):
     if(numero in self._contas):
       conta = self._contas[numero] 
@@ -49,7 +39,7 @@ class Banco(metaclass=SingletonMeta):
     else:
       raise Exception("Conta não existe!")
     
-  def transferir(self, origem, destino, valor : float) -> float:
+  def transferir(self, origem : int, destino : int, valor : float) -> float:
     if(origem in self._contas and destino in self._contas):
       conta_origem = self._contas[origem]
       conta_destino =  self._contas[destino]
