@@ -25,6 +25,6 @@ if __name__ == '__main__':
         case '4':
             exit(0)
         case '5':
-            exit(0)
+            transferir()
         case _:
             raise Exception("Opção inválida")
