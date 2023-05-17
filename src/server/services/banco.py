@@ -1,5 +1,5 @@
 from typing import Dict;
-from src.server.entities import Conta;
+from src.server.entities import Conta, ContaBonus;
 from src.server.config import TipoCredito;
 
 

@@ -5,11 +5,12 @@ import time
 def operacao_banco():
     print("Bem vindo ao app do Banco DIM0517")
     print("Escolha umas das opções abaixo: ")
-    print("(1) Cadastrar Conta")
-    print("(2) Consultar Saldo")
-    print("(3) Crédito (Adicionar fundos)")
-    print("(4) Débito (Subtrair valor)")
-    print("(5) Transferência")
+    print("(1) Cadastrar Conta Comum")
+    print("(2) Cadastrar Conta Bônus")
+    print("(3) Consultar Saldo")
+    print("(4) Crédito (Adicionar fundos)")
+    print("(5) Débito (Subtrair valor)")
+    print("(6) Transferência")
     print("(0) Sair")
 
     opcao = input("Digite aqui sua opcao:")
@@ -20,12 +21,14 @@ def operacao_banco():
         case '1':
             crie_conta()
         case '2':
-            consulta_saldo()         
+            crie_conta_bonus()
         case '3':
-            credito()
+            consulta_saldo()         
         case '4':
-            debito()
+            credito()
         case '5':
+            debito()
+        case '6':
             transferir()
         case _:
             invalid_input()
