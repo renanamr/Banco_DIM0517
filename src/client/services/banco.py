@@ -35,6 +35,17 @@ def crie_conta():
         print("Esse conta já existe, tente novamente!")
         crie_conta()
 
+def crie_conta_bonus():
+    banco = Banco()
+    print("Digite o número da conta bônus a ser criado:")
+    numero = int(input())
+    if(banco.criarContaBonus(numero)):
+        print("Conta bônus criada com sucesso!")
+    else:
+        print("Esse conta já existe, tente novamente!")
+        crie_conta_bonus()
+
+
 def consulta_saldo():
     banco = Banco()
     print("Digite o número da conta:")
