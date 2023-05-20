@@ -7,10 +7,12 @@ def operacao_banco():
     print("Escolha umas das opções abaixo: ")
     print("(1) Cadastrar Conta Comum")
     print("(2) Cadastrar Conta Bônus")
-    print("(3) Consultar Saldo")
-    print("(4) Crédito (Adicionar fundos)")
-    print("(5) Débito (Subtrair valor)")
-    print("(6) Transferência")
+    print("(3) Cadastrar Conta Poupança")
+    print("(4) Consultar Saldo")
+    print("(5) Crédito (Adicionar fundos)")
+    print("(6) Débito (Subtrair valor)")
+    print("(7) Transferência")
+    print("(8) Render Juros")
     print("(0) Sair")
 
     opcao = input("Digite aqui sua opcao:")
@@ -23,13 +25,17 @@ def operacao_banco():
         case '2':
             crie_conta_bonus()
         case '3':
-            consulta_saldo()         
+            crie_conta_poupanca()
         case '4':
-            credito()
+            consulta_saldo()         
         case '5':
-            debito()
+            credito()
         case '6':
+            debito()
+        case '7':
             transferir()
+        case '8':
+            renda_juros()
         case _:
             invalid_input()
     
