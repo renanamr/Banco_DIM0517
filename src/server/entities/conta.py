@@ -1,7 +1,9 @@
-from src.server.config import TipoCredito;
+from src.server.config import TipoCredito,TipoConta;
 
 
 class Conta:
+  
+  tipo = TipoConta.NORMAL
   
   def __init__(self, numero : int, saldo : float):
         self.numero = numero

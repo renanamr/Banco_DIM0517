@@ -1,6 +1,6 @@
 from typing import Dict;
-from src.server.entities import Conta, ContaBonus;
-from src.server.config import TipoCredito;
+from src.server.entities import Conta, ContaBonus,ContaPoupanca;
+from src.server.config import TipoCredito,TipoConta;
 
 
 class SingletonMeta(type):
@@ -30,6 +30,34 @@ class Banco(metaclass=SingletonMeta):
     else:
       self._contas[numero] = ContaBonus(numero, 0.0);
       return True  
+  
+  def criarContaPoupanca(self, numero : int) -> bool:
+    if(numero in self._contas):
+      return False
+    else:
+      self._contas[numero] = ContaPoupanca(numero, 0.0);
+      return True
+
+  def exists(self,numero:int) -> bool:
+    return numero in self._contas
+  
+  def getTipo(self,numero:int):
+    if(self.exists(numero)):
+      return self._contas[numero].tipo
+    else:
+      raise Exception("Conta não existe!")
+
+  def renda_juros(self,numero:int,val:float):
+    if not self.exists(numero):
+        raise Exception("Essa conta não existe!")
+        return
+    
+    if self.getTipo(numero)!=TipoConta.POUPANCA:
+        raise Exception("Essa conta não é poupança!")
+        return
+    
+    self._contas[numero].renda_juros(val)
+    
 
 
   def saldoConta(self, numero : int) -> float:

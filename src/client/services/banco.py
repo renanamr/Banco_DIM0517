@@ -1,4 +1,5 @@
 from src.server.services.banco import Banco
+from src.server.config import TipoConta;
 
 def credito():
     banco = Banco()
@@ -45,6 +46,16 @@ def crie_conta_bonus():
         print("Esse conta já existe, tente novamente!")
         crie_conta_bonus()
 
+def crie_conta_poupanca():
+    banco = Banco()
+    print("Digite o número da conta poupança a ser criado:")
+    numero = int(input())
+    if(banco.criarContaPoupanca(numero)):
+        print("Conta poupança criada com sucesso!")
+    else:
+        print("Esse conta já existe, tente novamente!")
+        crie_conta_bonus()
+
 
 def consulta_saldo():
     banco = Banco()
@@ -54,3 +65,16 @@ def consulta_saldo():
         print("Essa conta tem "+str(banco.saldoConta(numero))+" reais")
     except:
         print("Essa conta não existe!")
+
+
+def renda_juros():
+    banco = Banco()
+    print("Digite o número da conta:")
+    numero = int(input())        
+
+    print("Digite os juros:")
+    val = float(input())    
+    
+    banco.renda_juros(numero,val)
+
+    print("Juros rendidos com sucesso, agora você tem: "+str(banco.saldoConta(numero)))
