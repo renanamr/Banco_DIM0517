@@ -2,6 +2,11 @@ from services.banco import *
 
 import time
 
+import sys
+
+def eprint(*args, **kwargs):
+    print(*args, file=sys.stderr, **kwargs)
+
 def operacao_banco():
     print("Bem vindo ao app do Banco DIM0517")
     print("Escolha umas das opções abaixo: ")
@@ -36,4 +41,7 @@ def operacao_banco():
 
 if __name__ == '__main__':
     while(True):
-        operacao_banco()
+        try:
+            operacao_banco()
+        except Exception as err:
+            eprint(err)

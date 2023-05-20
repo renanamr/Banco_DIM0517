@@ -41,6 +41,8 @@ class Banco(metaclass=SingletonMeta):
     
   def transferir(self, origem : int, destino : int, valor : float) -> float:
     if(origem in self._contas and destino in self._contas):
+      if self._contas[origem].saldo < valor:
+        raise Exception("Saldo insuficiente!")
       self.debito(origem,valor)
       self.credito(destino,valor)
       return True
@@ -48,5 +50,7 @@ class Banco(metaclass=SingletonMeta):
       raise Exception("Conta não existe!")
   
   def debito(self,numero: int, valor:float):
+    if self._contas[numero].saldo < valor:
+      raise Exception("Saldo insuficiente!")
     return self.credito(numero,-valor)
 
