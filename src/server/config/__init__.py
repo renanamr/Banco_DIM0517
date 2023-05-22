@@ -1,0 +1,1 @@
+from .tipo_credito_config import TipoCredito,TipoConta;
