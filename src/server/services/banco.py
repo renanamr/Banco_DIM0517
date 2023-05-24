@@ -38,14 +38,7 @@ class Banco(metaclass=SingletonMeta):
       self._contas[numero] = ContaPoupanca(numero, saldo);
       return True
 
-  def exists(self,numero:int) -> bool:
-    return numero in self._contas
-  
-  def getTipo(self,numero:int):
-    if(self.exists(numero)):
-      return self._contas[numero].tipo
-    else:
-      raise Exception("Conta não existe!")
+
 
   def renda_juros(self,numero:int,val:float):
     if not self.exists(numero):
@@ -58,7 +51,6 @@ class Banco(metaclass=SingletonMeta):
     
     self._contas[numero].renda_juros(val)
     
-
 
   def saldoConta(self, numero : int) -> float:
     if(numero in self._contas):
@@ -81,8 +73,9 @@ class Banco(metaclass=SingletonMeta):
     if valor < 0:
       raise Exception("Não é possível transferir valores negativos!")
     if(origem in self._contas and destino in self._contas):
-      if self._contas[origem].saldo < valor:
+      if self._noSaldo(origem, valor):
         raise Exception("Saldo insuficiente!")
+      
       self.debito(origem,valor)
       self.credito(destino,valor, TipoCredito.TRANSFERENCIA)
       return True
@@ -92,9 +85,27 @@ class Banco(metaclass=SingletonMeta):
   def debito(self,numero: int, valor:float):
     if valor < 0:
       raise Exception("Não é possível debitar valores negativos!")
-    if self._contas[numero].saldo < valor:
+    if self._noSaldo(numero, valor):
       raise Exception("Saldo insuficiente!")
 
     self._contas[numero].saldo -= valor
     return True
 
+
+  def exists(self,numero:int) -> bool:
+    return numero in self._contas
+  
+  def getTipo(self,numero:int):
+    if(self.exists(numero)):
+      return self._contas[numero].tipo
+    else:
+      raise Exception("Conta não existe!")
+
+  def _noSaldo(self, numero: int, valor: float) -> bool:
+    tipoConta = self.getTipo(numero);
+    if(tipoConta==TipoConta.NORMAL or tipoConta==TipoConta.BONUS):
+      if((self._contas[numero].saldo - valor) < -1000.0):
+        return True;
+    elif(self._contas[numero].saldo < valor):
+      return True;
+    return False
