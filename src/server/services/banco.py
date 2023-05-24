@@ -31,11 +31,11 @@ class Banco(metaclass=SingletonMeta):
       self._contas[numero] = ContaBonus(numero, 0.0);
       return True  
   
-  def criarContaPoupanca(self, numero : int) -> bool:
+  def criarContaPoupanca(self, numero : int, saldo : float) -> bool:
     if(numero in self._contas):
       return False
     else:
-      self._contas[numero] = ContaPoupanca(numero, 0.0);
+      self._contas[numero] = ContaPoupanca(numero, saldo);
       return True
 
   def exists(self,numero:int) -> bool:
