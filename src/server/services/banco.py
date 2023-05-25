@@ -17,11 +17,12 @@ class Banco(metaclass=SingletonMeta):
 
   _contas: Dict[int, Conta] = {}
   
-  def criarConta(self, numero : int) -> bool:
+  def criarConta(self, numero : int, saldo: float) -> bool:
     if(numero in self._contas):
       return False
     else:
       self._contas[numero] = Conta(numero, 0.0);
+      self.credito(numero, saldo)
       return True
 
   def criarContaBonus(self, numero : int) -> bool:
