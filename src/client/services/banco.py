@@ -29,7 +29,9 @@ def crie_conta():
     banco = Banco()
     print("Digite o número da conta a ser criado:")
     numero = int(input())
-    if(banco.criarConta(numero)):
+    print("Digite o saldo inicial da conta:")
+    saldo = int(input())
+    if(banco.criarConta(numero, saldo)):
         print("Conta criada com sucesso!")
     else:
         print("Esse conta já existe, tente novamente!")
