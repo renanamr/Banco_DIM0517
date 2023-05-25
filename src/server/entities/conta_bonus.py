@@ -15,6 +15,6 @@ class ContaBonus(Conta):
     if(tipo == TipoCredito.DEPOSITO):
       self.pontuacao += (valor // 100);
     elif(tipo == TipoCredito.TRANSFERENCIA):
-      self.pontuacao += (valor // 200);
+      self.pontuacao += (valor // 150);
       
     super().credito(valor, tipo);
