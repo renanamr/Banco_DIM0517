@@ -26,3 +26,7 @@ Projeto para matéria DIM0517 - GERÊNCIA DE CONFIGURAÇÃO E MUDANÇAS (2023.1)
     ```
     docker run -it --rm banco
     ```
+
+## Histórico de commits
+
+![Commit History](images/commits.png)
