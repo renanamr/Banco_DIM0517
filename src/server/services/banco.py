@@ -44,17 +44,21 @@ def getTipo(numero:int):
 
 
 
+@operations.put("/rendimento")
+def renda_juros():
+  numero = int(request.json["numero"])
+  valor = float(request.json["valor"])
+  return _renda_juros(numero, valor)
 
-def renda_juros(numero:int,val:float):
+def _renda_juros(numero:int,valor:float):
   if not exists(numero):
-      raise Exception("Essa conta não existe!")
-      return
+      return "Conta não existe!",400
   
   if getTipo(numero)!=TipoConta.POUPANCA:
-      raise Exception("Essa conta não é poupança!")
-      return
+      return "Essa conta não é poupança!",400
   
-  _contas[numero].renda_juros(val)
+  _contas[numero].renda_juros(valor)
+  return "OK",200
   
 
 
