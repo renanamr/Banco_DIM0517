@@ -4,7 +4,7 @@ from config import TipoCredito,TipoConta;
 
 from flask import Blueprint,request,jsonify
 
-operations = Blueprint("teste",__name__,url_prefix = "/banco/conta")
+operations = Blueprint("operations_blueprint",__name__,url_prefix = "/banco/conta")
 
 
 

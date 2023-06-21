@@ -1,6 +1,7 @@
 FROM python:3.11.3
 
 RUN pip install flask 
+RUN pip install pytest
 
 WORKDIR /server
 
