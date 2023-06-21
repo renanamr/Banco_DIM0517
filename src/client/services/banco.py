@@ -1,4 +1,6 @@
-from src.server.services.banco import Banco
+import requests
+
+PREFIX = "http://localhost:5000/banco/conta/"
 
 def credito():
     return 
@@ -9,20 +11,33 @@ def credito():
         print("Foram adicionados " + str(valor) + " a conta " + str(numero))
 
 def transferir():
-    return 
-    banco = Banco()
+    
     origem = int(input("Digite o numero da conta de origem:"))
     destino = int(input("Digite o numero da conta de destino:"))
     valor = float(input("Digite o valor a ser transferido:"))
-    if banco.transferir(origem, destino, valor):
+
+    url = PREFIX+"transferencia"
+
+    ans = requests.put(url,json = {"origem":origem,"destino":destino,"valor":valor})
+
+    if ans.status_code=='200':
         print("Foram transferidos " + str(valor) + " da conta " + str(origem) + " para a conta " + str(destino))
+    else:
+        print(ans.text)
 
 def debito():
-    banco = Banco()
+    
     numero = int(input("Digite o numero da conta:"))
     valor = float(input("Digite o valor a ser debitado:"))
-    if banco.debito(numero, valor):
+    
+    url = PREFIX+str(numero)+"/debito"
+    
+    ans = requests.put(url,json = {"valor":valor})
+    
+    if ans.status_code=='200':
         print("Foram retirados " + str(valor) + " a conta " + str(numero))
+    else:
+        print(ans.text)
 
 def invalid_input():
     print("O número digitado é inválido")
@@ -88,3 +103,13 @@ def renda_juros():
     banco.renda_juros(numero,val)
 
     print("Juros rendidos com sucesso, agora você tem: "+str(banco.saldoConta(numero)))
+
+
+def get_info():
+    numero = int(input("Digite o número da conta:"))
+    url = PREFIX+str(numero)+"/informacoes"
+    
+    ans = requests.get(url)
+    
+    print(ans.text)
+    
