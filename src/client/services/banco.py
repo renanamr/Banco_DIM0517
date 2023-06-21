@@ -69,9 +69,11 @@ def crie_conta_bonus():
 def crie_conta_poupanca():
     return 
     banco = Banco()
-    print("Digite o número da conta poupança a ser criado:")
+    print("Digite o número da conta poupança a ser criada:")
     numero = int(input())
-    if(banco.criarContaPoupanca(numero)):
+    print("Digite o saldo da conta poupança a ser criada:")
+    saldo = float(input())
+    if(banco.criarContaPoupanca(numero, saldo)):
         print("Conta poupança criada com sucesso!")
     else:
         print("Esse conta já existe, tente novamente!")
