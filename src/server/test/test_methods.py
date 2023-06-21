@@ -1,5 +1,6 @@
 import pytest
 import server.services.banco as banco_test
+from config import *
 
 
 class TestBanco:
@@ -48,3 +49,18 @@ class TestBanco:
         banco_test.criarConta(1,20)
         banco_test.criarConta(2,30)
         assert banco_test._transferir(-20,1,2)[1] == 400
+    
+    def test_get_info_1(self):
+        banco_test.criarConta(1,20)
+        assert "TipoConta.NORMAL" in banco_test._get_info(1)[0]
+    
+    def test_get_info_2(self):
+        banco_test.criarContaBonus(1)
+        assert "TipoConta.BONUS" in banco_test._get_info(1)[0]
+    
+    def test_get_info_3(self):
+        banco_test.criarContaPoupanca(1)
+        assert "TipoConta.POUPANCA" in banco_test._get_info(1)[0]
+    
+    def test_get_info_4(self):
+        assert banco_test._get_info(1)[1] == 400

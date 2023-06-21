@@ -11,4 +11,4 @@ class Conta:
 
 
   def credito(self, valor: float, tipo: TipoCredito):
-    self.saldo+= valor;
+    self.saldo+= valor
