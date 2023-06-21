@@ -1,5 +1,5 @@
 from .conta import Conta;
-from src.server.config import TipoCredito,TipoConta;
+from config import TipoCredito,TipoConta;
 
 
 class ContaBonus(Conta):

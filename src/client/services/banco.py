@@ -1,7 +1,7 @@
 from src.server.services.banco import Banco
-from src.server.config import TipoConta;
 
 def credito():
+    return 
     banco = Banco()
     numero = int(input("Digite o numero da conta:"))
     valor = float(input("Digite o valor a ser adicionado:"))
@@ -9,6 +9,7 @@ def credito():
         print("Foram adicionados " + str(valor) + " a conta " + str(numero))
 
 def transferir():
+    return 
     banco = Banco()
     origem = int(input("Digite o numero da conta de origem:"))
     destino = int(input("Digite o numero da conta de destino:"))
@@ -27,6 +28,7 @@ def invalid_input():
     print("O número digitado é inválido")
 
 def crie_conta():
+    return 
     banco = Banco()
     print("Digite o número da conta a ser criado:")
     numero = int(input())
@@ -39,6 +41,7 @@ def crie_conta():
         crie_conta()
 
 def crie_conta_bonus():
+    return 
     banco = Banco()
     print("Digite o número da conta bônus a ser criado:")
     numero = int(input())
@@ -49,6 +52,7 @@ def crie_conta_bonus():
         crie_conta_bonus()
 
 def crie_conta_poupanca():
+    return 
     banco = Banco()
     print("Digite o número da conta poupança a ser criada:")
     numero = int(input())
@@ -62,6 +66,7 @@ def crie_conta_poupanca():
 
 
 def consulta_saldo():
+    return 
     banco = Banco()
     print("Digite o número da conta:")
     numero = int(input())
@@ -72,6 +77,7 @@ def consulta_saldo():
 
 
 def renda_juros():
+    return 
     banco = Banco()
     print("Digite o número da conta:")
     numero = int(input())        

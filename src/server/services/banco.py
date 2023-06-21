@@ -1,6 +1,11 @@
 from typing import Dict;
-from src.server.entities import Conta, ContaBonus,ContaPoupanca;
-from src.server.config import TipoCredito,TipoConta;
+from entities import Conta, ContaBonus,ContaPoupanca;
+from config import TipoCredito,TipoConta;
+
+from flask import Flask
+
+app = Flask(__name__)
+
 
 
 class SingletonMeta(type):
@@ -82,7 +87,7 @@ class Banco(metaclass=SingletonMeta):
       return True
     else:
       raise Exception("Conta não existe!")
-  
+
   def debito(self,numero: int, valor:float):
     if valor < 0:
       raise Exception("Não é possível debitar valores negativos!")

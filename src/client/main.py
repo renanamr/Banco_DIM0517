@@ -49,6 +49,7 @@ def operacao_banco():
     time.sleep(2)
 
 if __name__ == '__main__':
+
     while(True):
         try:
             operacao_banco()
