@@ -108,3 +108,14 @@ def _debito(numero:int, valor:float):
   _contas[numero].saldo -= valor
   return "OK",200
 
+@operations.get("/<numero>/informacoes")
+def get_info(numero:int):
+  return _get_info(numero)
+
+def _get_info(numero:int):
+  if(not exists(numero)):
+    return "Essa conta não existe",400
+  
+  conta_info = _contas[numero]
+  info = "Tipo = " + str(conta_info.tipo) + ", Saldo = " + str(conta_info.saldo)
+  return info,200

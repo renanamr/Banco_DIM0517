@@ -101,3 +101,13 @@ def renda_juros():
     banco.renda_juros(numero,val)
 
     print("Juros rendidos com sucesso, agora você tem: "+str(banco.saldoConta(numero)))
+
+
+def get_info():
+    numero = int(input("Digite o número da conta:"))
+    url = PREFIX+str(numero)+"/informacoes"
+    
+    ans = requests.get(url)
+    
+    print(ans.text)
+    
