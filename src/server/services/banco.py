@@ -1,7 +1,7 @@
 from typing import Dict;
 from entities import Conta, ContaBonus,ContaPoupanca;
 from config import TipoCredito,TipoConta;
-
+import json, sys
 from flask import Blueprint,request,jsonify
 
 operations = Blueprint("operations_blueprint",__name__,url_prefix = "/banco/conta")
@@ -37,7 +37,7 @@ def _criarConta(numero : int, saldo: float) -> bool:
     return False
   else:
     _contas[numero] = Conta(numero, 0.0)
-    credito(numero, saldo)
+    _credito(numero, saldo)
     return True
 
 def _criarContaBonus(numero : int) -> bool:
@@ -53,6 +53,20 @@ def _criarContaPoupanca(numero : int) -> bool:
   else:
     _contas[numero] = ContaPoupanca(numero, 0.0);
     return True
+  
+@operations.get("/<numero>/saldo")
+def getSaldo(numero : int):
+  try:
+    saldo = _getSaldo(int(numero))
+  except:
+    return "Numero inválido", 400
+  
+  ans = {"saldo": saldo}
+  return ans, 200
+
+def _getSaldo(numero : int):
+  conta = _contas[numero]
+  return conta.saldo
 
 def exists(numero:int) -> bool:
   return numero in _contas
