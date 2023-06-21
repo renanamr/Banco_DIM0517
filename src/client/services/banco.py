@@ -87,14 +87,16 @@ def crie_conta_poupanca():
 
 
 def consulta_saldo():
-    return 
-    banco = Banco()
     print("Digite o número da conta:")
     numero = int(input())
-    try:
-        print("Essa conta tem "+str(banco.saldoConta(numero))+" reais")
-    except:
-        print("Essa conta não existe!")
+
+    url = PREFIX+str(numero)+"/saldo"
+    ans = requests.get(url)
+
+    if ans.status_code=='200':
+        print("Contra criada com sucesso! numero: "+str(numero))
+    else:
+        print(ans.text)
 
 
 def renda_juros():
