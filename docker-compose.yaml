@@ -1,23 +1,8 @@
 version: '3'
 
 services:
-  frontend:
-    build:
-      context: src/client 
-    networks:
-      - mynetwork
-    tty: true  # Enable interactive mode for the frontend container
-    stdin_open: true  # Keep stdin open for the frontend container
-    
   backend:
     build:
       context: src/server  
     ports:
       - '5000:5000'  
-    networks:
-      - mynetwork
-    
-
-
-networks:
-  mynetwork:

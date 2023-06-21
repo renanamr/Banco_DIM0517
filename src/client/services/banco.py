@@ -1,4 +1,4 @@
-#from src.server.services.banco import Banco
+from src.server.services.banco import Banco
 
 def credito():
     return 
@@ -18,7 +18,6 @@ def transferir():
         print("Foram transferidos " + str(valor) + " da conta " + str(origem) + " para a conta " + str(destino))
 
 def debito():
-    return 
     banco = Banco()
     numero = int(input("Digite o numero da conta:"))
     valor = float(input("Digite o valor a ser debitado:"))

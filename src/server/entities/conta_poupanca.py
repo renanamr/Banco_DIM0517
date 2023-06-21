@@ -1,5 +1,5 @@
 from .conta import Conta;
-from src.server.config import TipoConta;
+from config import TipoConta;
 
 
 class ContaPoupanca(Conta):
