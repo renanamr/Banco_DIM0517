@@ -42,6 +42,9 @@ def getTipo(numero:int):
   else:
     raise Exception("Conta não existe!")
 
+
+
+
 def renda_juros(numero:int,val:float):
   if not exists(numero):
       raise Exception("Essa conta não existe!")
@@ -55,22 +58,34 @@ def renda_juros(numero:int,val:float):
   
 
 
+
+
 def saldoConta(numero : int) -> float:
   if(numero in _contas):
     conta = _contas[numero];
     return conta.saldo
   else:
     raise Exception("Conta não existe!")
-  
-def credito(numero : int, valor : float, tipo=TipoCredito.DEPOSITO):
+
+
+
+@operations.put("/<numero>/credito")
+def credito(numero : int):
+  valor = float(request.json["valor"])
+  return _credito(numero,valor)
+
+def _credito(numero : int, valor : float, tipo=TipoCredito.DEPOSITO):
   if valor < 0:
-    raise Exception("Não é possível creditar valores negativos!")
+    return "Não é possível creditar valores negativos!",400
   if(numero in _contas):
     conta = _contas[numero] 
     conta.credito(valor, tipo)
-    return True
+    return "OK",200
   else:
-    raise Exception("Conta não existe!")
+    return "Conta não existe!",400
+  
+
+
 
 @operations.put("/transferencia")
 def transferir():
@@ -92,6 +107,9 @@ def _transferir(valor:int,origem:int,destino:int):
     return "Conta não existe!",400
   
 
+
+
+
 @operations.put("/<numero>/debito")
 def debito(numero : int):
   valor = float(request.json["valor"])
@@ -107,6 +125,9 @@ def _debito(numero:int, valor:float):
 
   _contas[numero].saldo -= valor
   return "OK",200
+
+
+
 
 @operations.get("/<numero>/informacoes")
 def get_info(numero:int):
