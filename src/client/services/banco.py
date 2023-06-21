@@ -98,17 +98,17 @@ def consulta_saldo():
 
 
 def renda_juros():
-    return 
-    banco = Banco()
-    print("Digite o número da conta:")
-    numero = int(input())        
+    numero = int(input("Digite o numero da conta:"))
+    valor = float(input("Digite os juros:"))
 
-    print("Digite os juros:")
-    val = float(input())    
-    
-    banco.renda_juros(numero,val)
+    url = PREFIX+"rendimento"
 
-    print("Juros rendidos com sucesso, agora você tem: "+str(banco.saldoConta(numero)))
+    ans = requests.put(url,json = {"numero":numero,"valor":valor})
+
+    if ans.status_code=='200':
+        print("Juros de " + str(valor) + " rendidos com sucesso, na conta " + str(numero))
+    else:
+        print(ans.text)
 
 
 def get_info():
