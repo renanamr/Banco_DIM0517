@@ -11,22 +11,43 @@ operations = Blueprint("operations_blueprint",__name__,url_prefix = "/banco/cont
 #Singleton removido
 _contas: Dict[int, Conta] = {}
 
-def criarConta(numero : int, saldo: float) -> bool:
+@operations.post("/")
+def criarConta():
+  numero = int(request.json['numero'])
+  tipo = request.json['tipo']
+
+  match tipo:
+    case 'bonus':
+      if not _criarContaBonus(numero):
+        return('Conta já existe', 400)
+    case 'poupanca':
+      if not _criarContaPoupanca(numero):
+        return('Conta já existe', 400)
+    case 'normal':
+      saldo = float(request.json['saldo'])
+      if not _criarConta(numero, saldo):
+        return ('Conta já existe', 400)
+    case _:
+      return('Tipo inválido', 400)
+  
+  return ('Ok', 200)
+
+def _criarConta(numero : int, saldo: float) -> bool:
   if(numero in _contas):
     return False
   else:
-    _contas[numero] = Conta(numero, 0.0);
+    _contas[numero] = Conta(numero, 0.0)
     credito(numero, saldo)
     return True
 
-def criarContaBonus(numero : int) -> bool:
+def _criarContaBonus(numero : int) -> bool:
   if(numero in _contas):
     return False
   else:
     _contas[numero] = ContaBonus(numero, 0.0);
     return True  
 
-def criarContaPoupanca(numero : int) -> bool:
+def _criarContaPoupanca(numero : int) -> bool:
   if(numero in _contas):
     return False
   else:

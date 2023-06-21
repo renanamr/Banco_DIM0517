@@ -49,41 +49,41 @@ def invalid_input():
     print("O número digitado é inválido")
 
 def crie_conta():
-    return 
-    banco = Banco()
     print("Digite o número da conta a ser criado:")
     numero = int(input())
     print("Digite o saldo inicial da conta:")
     saldo = int(input())
-    if(banco.criarConta(numero, saldo)):
-        print("Conta criada com sucesso!")
+
+    url = PREFIX
+    ans = requests.post(url,json = {"numero":numero,"saldo":saldo, "tipo": "normal"})
+
+    if ans.status_code=='200':
+        print("Contra criada com sucesso! numero: "+str(numero)+" saldo: "+str(saldo))
     else:
-        print("Esse conta já existe, tente novamente!")
-        crie_conta()
+        print(ans.text)
 
 def crie_conta_bonus():
-    return 
-    banco = Banco()
     print("Digite o número da conta bônus a ser criado:")
     numero = int(input())
-    if(banco.criarContaBonus(numero)):
-        print("Conta bônus criada com sucesso!")
+
+    url = PREFIX
+    ans = requests.post(url,json = {"numero":numero,"tipo": "bonus"})
+
+    if ans.status_code=='200':
+        print("Contra criada com sucesso! numero: "+str(numero))
     else:
-        print("Esse conta já existe, tente novamente!")
-        crie_conta_bonus()
+        print(ans.text)
 
 def crie_conta_poupanca():
-    return 
-    banco = Banco()
     print("Digite o número da conta poupança a ser criada:")
     numero = int(input())
-    print("Digite o saldo da conta poupança a ser criada:")
-    saldo = float(input())
-    if(banco.criarContaPoupanca(numero, saldo)):
-        print("Conta poupança criada com sucesso!")
+    url = PREFIX
+    ans = requests.post(url,json = {"numero":numero,"tipo": "poupanca"})
+
+    if ans.status_code=='200':
+        print("Contra criada com sucesso! numero: "+str(numero))
     else:
-        print("Esse conta já existe, tente novamente!")
-        crie_conta_bonus()
+        print(ans.text)
 
 
 def consulta_saldo():
