@@ -3,12 +3,18 @@ import requests
 PREFIX = "http://localhost:5000/banco/conta/"
 
 def credito():
-    return 
-    banco = Banco()
+    
     numero = int(input("Digite o numero da conta:"))
     valor = float(input("Digite o valor a ser adicionado:"))
-    if banco.credito(numero, valor):
-        print("Foram adicionados " + str(valor) + " a conta " + str(numero))
+    
+    url = PREFIX+str(numero)+"/credito"
+    
+    ans = requests.put(url,json = {"valor":valor})
+    
+    if ans.status_code=='200':
+        print("Foram creditados " + str(valor) + " a conta " + str(numero))
+    else:
+        print(ans.text)
 
 def transferir():
     
