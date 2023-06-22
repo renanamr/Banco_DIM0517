@@ -100,15 +100,14 @@ def consulta_saldo():
 
 
 def renda_juros():
-    numero = int(input("Digite o numero da conta:"))
     valor = float(input("Digite os juros:"))
 
     url = PREFIX+"rendimento"
 
-    ans = requests.put(url,json = {"numero":numero,"valor":valor})
+    ans = requests.put(url,json = {"juros":valor})
 
     if ans.status_code=='200':
-        print("Juros de " + str(valor) + " rendidos com sucesso, na conta " + str(numero))
+        print("Juros de " + str(valor) + "% rendidos com sucesso")
     else:
         print(ans.text)
 

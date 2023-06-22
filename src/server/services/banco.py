@@ -13,6 +13,7 @@ _contas: Dict[int, Conta] = {}
 
 @operations.post("/")
 def criarConta():
+  ans = {}
   numero = int(request.json['numero'])
   tipo = request.json['tipo']
 
@@ -29,7 +30,7 @@ def criarConta():
         return ('Conta já existe', 400)
     case _:
       return('Tipo inválido', 400)
-  
+  ans['status'] = 'Ok'
   return ('Ok', 200)
 
 def _criarConta(numero : int, saldo: float) -> bool:
@@ -81,19 +82,22 @@ def getTipo(numero:int):
 
 @operations.put("/rendimento")
 def renda_juros():
-  numero = int(request.json["numero"])
-  valor = float(request.json["valor"])
-  return _renda_juros(numero, valor)
+  ans = {}
+  juros = float(request.json["juros"])
+  try:
+    _renda_juros(juros)
+  except Exception as e:
+    print(e, file=sys.stderr) 
+    return str(e), 400
+  ans['status'] = 'Ok'
+  return ans, 200
 
-def _renda_juros(numero:int,valor:float):
-  if not exists(numero):
-      return "Conta não existe!",400
+def _renda_juros(juros:float):
+  for numero in _contas:
+    if getTipo(numero)==TipoConta.POUPANCA:
+        _contas[numero].renda_juros(juros)
+    
   
-  if getTipo(numero)!=TipoConta.POUPANCA:
-      return "Essa conta não é poupança!",400
-  
-  _contas[numero].renda_juros(valor)
-  return "OK",200
   
 
 
@@ -110,40 +114,52 @@ def saldoConta(numero : int) -> float:
 
 @operations.put("/<numero>/credito")
 def credito(numero : int):
+  ans = {}
   valor = float(request.json["valor"])
-  return _credito(numero,valor)
+  try:
+    _credito(int(numero), valor)
+  except Exception as e:
+    print(e, file=sys.stderr) 
+    return str(e), 400
+  ans['status'] = 'Ok'
+  return ans, 200
 
 def _credito(numero : int, valor : float, tipo=TipoCredito.DEPOSITO):
   if valor < 0:
-    return "Não é possível creditar valores negativos!",400
+    raise Exception("Não é possível creditar valores negativos!")
   if(numero in _contas):
     conta = _contas[numero] 
     conta.credito(valor, tipo)
-    return "OK",200
   else:
-    return "Conta não existe!",400
+    raise Exception("Conta não existe!")
   
 
 
 
 @operations.put("/transferencia")
 def transferir():
-  valor = request.json["valor"]
-  origem = request.json["origem"]
-  destino = request.json["destino"]
-  return _transferir(valor,origem,destino)
+  ans = {}
+  valor = float(request.json["valor"])
+  origem = int(request.json["origem"])
+  destino = int(request.json["destino"])
+  try:
+    _transferir(valor,origem,destino)
+  except Exception as e:
+    print(e, file=sys.stderr) 
+    return str(e), 400
+  ans['status'] = 'Ok'
+  return ans, 200
 
 def _transferir(valor:int,origem:int,destino:int):
   if valor < 0:
-    return "Não é possível transferir valores negativos!",400
+    raise Exception("Não é possível transferir valores negativos!")
   if(origem in _contas and destino in _contas):
     if _contas[origem].saldo < valor:
-      return "Saldo insuficiente!",400
+      raise Exception("Saldo insuficiente!")
     _debito(origem,valor)
-    credito(destino,valor, TipoCredito.TRANSFERENCIA)
-    return "OK",200
+    _credito(destino,valor, TipoCredito.TRANSFERENCIA)
   else:
-    return "Conta não existe!",400
+    raise("Conta não existe!")
   
 
 
@@ -151,31 +167,51 @@ def _transferir(valor:int,origem:int,destino:int):
 
 @operations.put("/<numero>/debito")
 def debito(numero : int):
+  ans = {}
   valor = float(request.json["valor"])
-  return _debito(numero,valor)
+  try:
+    _debito(int(numero), valor)
+  except Exception as e:
+    print(e, file=sys.stderr) 
+    return str(e), 400
+
+  ans['status'] = 'Ok'
+  return ans, 200
 
 def _debito(numero:int, valor:float):
   if(not exists(numero)):
-    return "Essa conta não existe",400
+    raise Exception("Conta inexistente!")
   if valor < 0:
-    return "Não é possível debitar valores negativos!",400
+    raise Exception("Não é possível debitar valores negativos!")
   if _contas[numero].saldo < valor:
-    return "Saldo insuficiente!",400
+    raise Exception("Saldo insuficiente!")
 
   _contas[numero].saldo -= valor
-  return "OK",200
 
 
 
 
 @operations.get("/<numero>/informacoes")
-def get_info(numero:int):
-  return _get_info(numero)
+def get_info(numero : int):
+  ans = {}
+  try:
+    conta_info = _get_info(int(numero))
+    ans['saldo'] = conta_info.saldo 
+    match conta_info.tipo:
+      case TipoConta.NORMAL:
+        ans['tipo'] = 'normal'
+      case TipoConta.BONUS:
+        ans['tipo'] = 'bonus'
+      case TipoConta.POUPANCA:
+        ans['tipo'] = 'poupanca'
+      case _: 
+        raise Exception('Tipo de conta indefinido')
+  except Exception as e:
+    print(e, file=sys.stderr) 
+    return "Conta inválida!", 400
+
+  return ans, 200
 
 def _get_info(numero:int):
-  if(not exists(numero)):
-    return "Essa conta não existe",400
-  
   conta_info = _contas[numero]
-  info = "Tipo = " + str(conta_info.tipo) + ", Saldo = " + str(conta_info.saldo)
-  return info,200
+  return conta_info
