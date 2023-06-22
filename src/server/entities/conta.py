@@ -1,4 +1,4 @@
-from src.server.config import TipoCredito,TipoConta;
+from config import TipoCredito,TipoConta;
 
 
 class Conta:
@@ -11,4 +11,4 @@ class Conta:
 
 
   def credito(self, valor: float, tipo: TipoCredito):
-    self.saldo+= valor;
+    self.saldo+= valor

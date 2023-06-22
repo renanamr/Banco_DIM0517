@@ -18,6 +18,7 @@ def operacao_banco():
     print("(6) Débito (Subtrair valor)")
     print("(7) Transferência")
     print("(8) Render Juros")
+    print("(9) Informações da conta")
     print("(0) Sair")
 
     opcao = input("Digite aqui sua opcao:")
@@ -41,6 +42,8 @@ def operacao_banco():
             transferir()
         case '8':
             renda_juros()
+        case '9':
+            get_info()
         case _:
             invalid_input()
     
@@ -49,6 +52,7 @@ def operacao_banco():
     time.sleep(2)
 
 if __name__ == '__main__':
+
     while(True):
         try:
             operacao_banco()

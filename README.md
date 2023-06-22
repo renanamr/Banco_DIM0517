@@ -14,17 +14,17 @@ Projeto para matéria DIM0517 - GERÊNCIA DE CONFIGURAÇÃO E MUDANÇAS (2023.1)
     PYTHONPATH=$PWD python src/client/main.py
     ```
 
+2. Executar testes:
+    ```
+    PYTHONPATH=$PWD/src/server pytest -s
+    ```
+
 ## Docker
 
-1. Faça build da imagem:
+1. Instancie a API com:
 
     ```
-    docker build -t banco .
-    ```
-2. Execute o container em modo iterativo:
-
-    ```
-    docker run -it --rm banco
+    docker-compose up
     ```
 
 ## Histórico de commits

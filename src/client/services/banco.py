@@ -1,82 +1,122 @@
-from src.server.services.banco import Banco
-from src.server.config import TipoConta;
+import requests
+
+PREFIX = "http://localhost:5000/banco/conta/"
 
 def credito():
-    banco = Banco()
+    
     numero = int(input("Digite o numero da conta:"))
     valor = float(input("Digite o valor a ser adicionado:"))
-    if banco.credito(numero, valor):
-        print("Foram adicionados " + str(valor) + " a conta " + str(numero))
+    
+    url = PREFIX+str(numero)+"/credito"
+    
+    ans = requests.put(url,json = {"valor":valor})
+    
+    if ans.status_code=='200':
+        print("Foram creditados " + str(valor) + " a conta " + str(numero))
+    else:
+        print(ans.text)
 
 def transferir():
-    banco = Banco()
+    
     origem = int(input("Digite o numero da conta de origem:"))
     destino = int(input("Digite o numero da conta de destino:"))
     valor = float(input("Digite o valor a ser transferido:"))
-    if banco.transferir(origem, destino, valor):
+
+    url = PREFIX+"transferencia"
+
+    ans = requests.put(url,json = {"origem":origem,"destino":destino,"valor":valor})
+
+    if ans.status_code=='200':
         print("Foram transferidos " + str(valor) + " da conta " + str(origem) + " para a conta " + str(destino))
+    else:
+        print(ans.text)
 
 def debito():
-    banco = Banco()
+    
     numero = int(input("Digite o numero da conta:"))
     valor = float(input("Digite o valor a ser debitado:"))
-    if banco.debito(numero, valor):
+    
+    url = PREFIX+str(numero)+"/debito"
+    
+    ans = requests.put(url,json = {"valor":valor})
+    
+    if ans.status_code=='200':
         print("Foram retirados " + str(valor) + " a conta " + str(numero))
+    else:
+        print(ans.text)
 
 def invalid_input():
     print("O número digitado é inválido")
 
 def crie_conta():
-    banco = Banco()
     print("Digite o número da conta a ser criado:")
     numero = int(input())
     print("Digite o saldo inicial da conta:")
     saldo = int(input())
-    if(banco.criarConta(numero, saldo)):
-        print("Conta criada com sucesso!")
+
+    url = PREFIX
+    ans = requests.post(url,json = {"numero":numero,"saldo":saldo, "tipo": "normal"})
+
+    if ans.status_code=='200':
+        print("Contra criada com sucesso! numero: "+str(numero)+" saldo: "+str(saldo))
     else:
-        print("Esse conta já existe, tente novamente!")
-        crie_conta()
+        print(ans.text)
 
 def crie_conta_bonus():
-    banco = Banco()
     print("Digite o número da conta bônus a ser criado:")
     numero = int(input())
-    if(banco.criarContaBonus(numero)):
-        print("Conta bônus criada com sucesso!")
+
+    url = PREFIX
+    ans = requests.post(url,json = {"numero":numero,"tipo": "bonus"})
+
+    if ans.status_code=='200':
+        print("Contra criada com sucesso! numero: "+str(numero))
     else:
-        print("Esse conta já existe, tente novamente!")
-        crie_conta_bonus()
+        print(ans.text)
 
 def crie_conta_poupanca():
-    banco = Banco()
-    print("Digite o número da conta poupança a ser criado:")
+    print("Digite o número da conta poupança a ser criada:")
     numero = int(input())
-    if(banco.criarContaPoupanca(numero)):
-        print("Conta poupança criada com sucesso!")
+    url = PREFIX
+    ans = requests.post(url,json = {"numero":numero,"tipo": "poupanca"})
+
+    if ans.status_code=='200':
+        print("Contra criada com sucesso! numero: "+str(numero))
     else:
-        print("Esse conta já existe, tente novamente!")
-        crie_conta_bonus()
+        print(ans.text)
 
 
 def consulta_saldo():
-    banco = Banco()
     print("Digite o número da conta:")
     numero = int(input())
-    try:
-        print("Essa conta tem "+str(banco.saldoConta(numero))+" reais")
-    except:
-        print("Essa conta não existe!")
+
+    url = PREFIX+str(numero)+"/saldo"
+    ans = requests.get(url)
+
+    if ans.status_code=='200':
+        print("Contra criada com sucesso! numero: "+str(numero))
+    else:
+        print(ans.text)
 
 
 def renda_juros():
-    banco = Banco()
-    print("Digite o número da conta:")
-    numero = int(input())        
+    valor = float(input("Digite os juros:"))
 
-    print("Digite os juros:")
-    val = float(input())    
+    url = PREFIX+"rendimento"
+
+    ans = requests.put(url,json = {"juros":valor})
+
+    if ans.status_code=='200':
+        print("Juros de " + str(valor) + "% rendidos com sucesso")
+    else:
+        print(ans.text)
+
+
+def get_info():
+    numero = int(input("Digite o número da conta:"))
+    url = PREFIX+str(numero)+"/informacoes"
     
-    banco.renda_juros(numero,val)
-
-    print("Juros rendidos com sucesso, agora você tem: "+str(banco.saldoConta(numero)))
+    ans = requests.get(url)
+    
+    print(ans.text)
+    
