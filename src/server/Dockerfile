@@ -1,8 +1,10 @@
 FROM python:3.11.3
 
-RUN pip install -r requirements.txt
-
 WORKDIR /server
+
+COPY src/server/requirements.txt .
+
+RUN pip install -r requirements.txt
 
 COPY . .
 
