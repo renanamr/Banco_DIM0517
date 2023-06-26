@@ -1,0 +1,36 @@
+name: Develop validation
+run-name: Validation
+on:
+  push:
+    branches: [ "develop" ]
+
+jobs:
+  dependency-check:
+    runs-on: python:3
+    steps:
+      - name: Downloading server dependencies...
+        run: pip install -r src/server/requirements.txt
+      - name: Downloading client dependencies...  
+        run: pip install -r src/client/requirements.txt
+    
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the back-end Docker image
+      run: docker build . --file src/server/Dockerfile --tag back:$(date +%s)
+    - name: Syntatic check for the front-end 
+      run: python3 -m compileall -q src/client/.
+    - name: Syntatic check for the back-end
+      run: python3 -m compileall -q src/server/.
+    
+  unit-testing:
+    runs-on: python:3
+    steps:
+    - name: install pytest 
+      run: pip install pytest
+    - name: unit testing
+      run: PYTHONPATH=./src/server pytest
+    
+
+
