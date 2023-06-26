@@ -2,12 +2,14 @@ name: Develop validation
 run-name: Validation
 on:
   push:
-    branches: [ "develop" ]
+    branches:    
+      - 'develop'
 
 jobs:
   dependency-check:
-    runs-on: python:3
+    runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - name: Downloading server dependencies...
         run: pip install -r src/server/requirements.txt
       - name: Downloading client dependencies...  
@@ -18,19 +20,33 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the back-end Docker image
-      run: docker build . --file src/server/Dockerfile --tag back:$(date +%s)
+      run: docker build . --file src/server/Dockerfile
     - name: Syntatic check for the front-end 
       run: python3 -m compileall -q src/client/.
     - name: Syntatic check for the back-end
       run: python3 -m compileall -q src/server/.
     
   unit-testing:
-    runs-on: python:3
+    runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v3
     - name: install pytest 
-      run: pip install pytest
+      run: pip install -r src/server/requirements.txt
     - name: unit testing
       run: PYTHONPATH=./src/server pytest
+  
+  create-tag:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: create tag
+      run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          export build_name=build-$(date +'%Y-%m-%d-%T')
+          git tag $build_name
+          git push origin $build_name
+
     
 
 
