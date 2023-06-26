@@ -1,7 +1,6 @@
 FROM python:3.11.3
 
-RUN pip install flask 
-RUN pip install pytest
+RUN pip install -r requirements.txt
 
 WORKDIR /server
 
