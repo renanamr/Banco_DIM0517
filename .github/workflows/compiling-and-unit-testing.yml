@@ -13,9 +13,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Downloading server dependencies...
-        run: pip install -r src/server/requirements.txt
+        run: pip install -r ./src/server/requirements.txt
       - name: Downloading client dependencies...  
-        run: pip install -r src/client/requirements.txt
+        run: pip install -r ./src/client/requirements.txt
     
   build:
     runs-on: ubuntu-latest
