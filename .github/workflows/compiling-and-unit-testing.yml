@@ -34,7 +34,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: install pytest 
-      run: pip install pytest
+      run: pip install -r src/server/requirements.txt
     - name: unit testing
       run: PYTHONPATH=./src/server pytest
     
