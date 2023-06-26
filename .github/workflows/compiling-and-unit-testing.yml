@@ -2,7 +2,11 @@ name: Develop validation
 run-name: Validation
 on:
   push:
-    branches: [ "develop" ]
+    branches:    
+      - '*'         # matches every branch that doesn't contain a '/'
+      - '*/*'       # matches every branch containing a single '/'
+      - '**'        # matches every branch
+      - '!master'   # excludes master
 
 jobs:
   dependency-check:
@@ -18,7 +22,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the back-end Docker image
-      run: docker build . --file src/server/Dockerfile --tag back:$(date +%s)
+      run: docker build src/server/. --file src/server/Dockerfile --tag back:$(date +%s)
     - name: Syntatic check for the front-end 
       run: python3 -m compileall -q src/client/.
     - name: Syntatic check for the back-end
