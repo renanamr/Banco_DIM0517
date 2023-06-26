@@ -36,6 +36,7 @@ jobs:
       run: PYTHONPATH=./src/server pytest
   
   create-tag:
+    needs: [dependency-check, build, unit-testing]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -43,7 +44,7 @@ jobs:
       run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
-          export build_name=build-$(date +'%Y-%m-%d-%T')
+          export build_name=build-$(date +'%Y-%m-%d-%H-%M-%S')
           git tag $build_name
           git push origin $build_name
 
