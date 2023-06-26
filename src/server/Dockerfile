@@ -6,7 +6,7 @@ COPY src/server/requirements.txt .
 
 RUN pip install -r requirements.txt
 
-COPY . .
+COPY src/server/ .
 
 EXPOSE 5000
 
