@@ -1,11 +1,12 @@
 FROM python:3.11.3
 
-RUN pip install flask 
-RUN pip install pytest
-
 WORKDIR /server
 
-COPY . .
+COPY src/server/requirements.txt .
+
+RUN pip install -r requirements.txt
+
+COPY src/server/ .
 
 EXPOSE 5000
 

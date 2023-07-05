@@ -1,0 +1,53 @@
+name: Develop validation
+run-name: Validation
+on:
+  push:
+    branches:    
+      - 'develop'
+
+jobs:
+  dependency-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Downloading server dependencies...
+        run: pip install -r src/server/requirements.txt
+      - name: Downloading client dependencies...  
+        run: pip install -r src/client/requirements.txt
+    
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the back-end Docker image
+      run: docker build . --file src/server/Dockerfile
+    - name: Syntatic check for the front-end 
+      run: python3 -m compileall -q src/client/.
+    - name: Syntatic check for the back-end
+      run: python3 -m compileall -q src/server/.
+    
+  unit-testing:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: install pytest 
+      run: pip install -r src/server/requirements.txt
+    - name: unit testing
+      run: PYTHONPATH=./src/server pytest
+  
+  create-tag:
+    needs: [dependency-check, build, unit-testing]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: create tag
+      run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          export build_name=build-$(date +'%Y-%m-%d-%H-%M-%S')
+          git tag $build_name
+          git push origin $build_name
+
+    
+
+
