@@ -8,7 +8,7 @@ RUN pip install -r requirements.txt
 
 COPY src/server/ .
 
-EXPOSE 5000
+EXPOSE 8080
 
 ENV FLASK_APP=main.py
 ENV PYTHONPATH=/server
