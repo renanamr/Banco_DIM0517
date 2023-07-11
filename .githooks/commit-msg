@@ -1,8 +1,14 @@
 #!/bin/bash
+ISSUES=$(curl --no-progress-meter https://api.github.com/repos/renanamr/Banco_DIM0517/issues\?q\=state:open | grep number | awk -F: '{print $2-1}')
 INPUT_FILE=$1
 START_LINE=`head -n1 $INPUT_FILE`
 PATTERN="^#[0-9]+ - .*"
 if ! [[ "$START_LINE" =~ $PATTERN ]]; then
-  echo "A mensagem de commit deve ser no formato: '<numero da issue> - <commit message>'. Por exemplo, '1234 - feature: add botão'"
+  echo "A mensagem de commit deve ser no formato: '#<numero da issue> - <commit message>'. Por exemplo, '#1234 - feature: add botão'"
   exit 1
+fi
+
+if ! [[ $ISSUES =~ $(echo $START_LINE | cut -d ' ' -f1 | cut -c 2-) ]]; then
+	echo "Utilize um número de issue válido"
+	exit 1
 fi
