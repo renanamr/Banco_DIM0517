@@ -1,6 +1,7 @@
 # Banco_DIM0517
 Projeto para matéria DIM0517 - GERÊNCIA DE CONFIGURAÇÃO E MUDANÇAS (2023.1). 
 
+
 ## Requisitos
 
 * Python Python 3.10 ou mais recente.
